@@ -1,5 +1,5 @@
 import os.path
-from typing import Iterable
+from typing import Any, Iterable, cast
 
 import pandas as pd
 from qdrant_client import QdrantClient, models
@@ -17,14 +17,19 @@ def read_points() -> Iterable[models.PointStruct]:
     # Rename `short_description` to `document`
     df.rename(columns={"short_description": "document"}, inplace=True)
 
-    for idx, row in df.iterrows():
+    for idx, raw_payload in enumerate(df.to_dict(orient="records")):
+        payload = cast(dict[str, Any], raw_payload)
+        document = payload.get("document")
+        if not isinstance(document, str) or not document.strip():
+            continue
+
         yield models.PointStruct(
             id=idx,
             vector=models.Document(
-                text=row["document"],
+                text=document,
                 model=EMBEDDINGS_MODEL,
             ),
-            payload=row.to_dict(),
+            payload=payload,
         )
 
 

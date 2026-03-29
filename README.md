@@ -33,7 +33,7 @@ poetry install
 ### 3. Download the dataset
 
 ```bash
-wget https://storage.googleapis.com/generall-shared-data/startups_demo.json -P data/
+wget https://storage.googleapis.com/generall-shared-data/startups_demo.json -O data/startups_demo.jsonl
 ```
 
 ### 4. Deploy the service

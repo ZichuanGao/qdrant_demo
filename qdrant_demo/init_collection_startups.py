@@ -9,7 +9,7 @@ from qdrant_demo.config import DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_
 
 
 def read_points() -> Iterable[models.PointStruct]:
-    payload_path = os.path.join(DATA_DIR, 'startups_demo.json')
+    payload_path = os.path.join(DATA_DIR, 'startups_demo.jsonl')
     with open(payload_path) as fd:
         for idx, line in enumerate(fd):
             obj = json.loads(line)
@@ -37,7 +37,7 @@ def upload_embeddings():
 
     client.set_model(EMBEDDINGS_MODEL)
 
-    payload_path = os.path.join(DATA_DIR, 'startups_demo.json')
+    payload_path = os.path.join(DATA_DIR, 'startups_demo.jsonl')
     payload = []
     documents = []
 
